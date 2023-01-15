@@ -18,6 +18,6 @@ pico_add_extra_outputs(demo)
 pico_enable_stdio_uart(demo 0)
 pico_enable_stdio_usb(demo 1)
 target_compile_definitions(demo PRIVATE
-    PICO_STDIO_USB_CONNECT_WAIT_TIMEOUT_MS=500)
+    PICO_STDIO_USB_CONNECT_WAIT_TIMEOUT_MS=5000)
 
 target_link_libraries(demo pico_stdlib)

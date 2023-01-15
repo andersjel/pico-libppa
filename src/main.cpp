@@ -1,6 +1,14 @@
+#include <cstdio>
 #include <pico/stdio.h>
+#include <pico/time.h>
 
-int main() {
+int main()
+{
     stdio_init_all();
-    return 0;
+
+    std::puts("Hello, World!");
+
+    for (;;) {
+        sleep_ms(100);
+    }
 }
