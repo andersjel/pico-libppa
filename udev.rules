@@ -1,0 +1,8 @@
+# Provide userspace access to Rapsberry Pi devices.
+ENV{ID_VENDOR_ID}=="2e8a", TAG+="uaccess"
+
+# Do not let udisksd automount the RP2040 bootloader.
+ENV{ID_VENDOR_ID}=="2e8a", ENV{ID_FS_LABEL}=="RPI-RP2", ENV{UDISKS_IGNORE}="1"
+
+# Add a symlink to the RP2040 usb-serial
+ENV{ID_VENDOR_ID}=="2e8a", SUBSYSTEM=="tty", SYMLINK+="ttyRP2040"

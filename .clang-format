@@ -1,1 +1,6 @@
 BasedOnStyle: WebKit
+AlignConsecutiveMacros: AcrossComments
+AlignConsecutiveAssignments: AcrossComments
+AlignConsecutiveDeclarations: AcrossComments
+ColumnLimit: 100
+AllowShortFunctionsOnASingleLine: Empty
