@@ -15,7 +15,38 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 pico_sdk_init()
 
-add_executable(demo src/main.c src/ppa.c src/cond.c)
+add_subdirectory(vendor/picomp3lib/src)
+
+add_custom_command(
+    OUTPUT strauss.mp3
+    MAIN_DEPENDENCY
+        ${CMAKE_CURRENT_SOURCE_DIR}/resources/strauss.ogg
+    COMMAND
+        ffmpeg
+            -i ${CMAKE_CURRENT_SOURCE_DIR}/resources/strauss.ogg
+            -write_xing 0
+            -id3v2_version 0
+            -q 5
+            -ar 22050
+            -ac 1
+            -y
+            strauss.mp3
+    WORKING_DIRECTORY .
+)
+
+add_custom_command(
+    OUTPUT strauss.o
+    MAIN_DEPENDENCY strauss.mp3
+    COMMAND
+       arm-none-eabi-objcopy
+        -I binary
+        -O elf32-littlearm
+        --rename-section .data=.flashdata,readonly,contents,alloc
+        strauss.mp3
+        strauss.o
+)
+
+add_executable(demo src/main.c src/ppa.c src/cond.c strauss.o)
 pico_add_extra_outputs(demo)
 
 # Use USB for stdio.
@@ -29,4 +60,5 @@ target_link_libraries(demo
     pico_stdlib
     hardware_pwm
     hardware_dma
+    picomp3lib
 )

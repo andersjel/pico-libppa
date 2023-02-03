@@ -271,6 +271,13 @@ void ppa_queue(struct ppa_desc* desc)
     spin_unlock(g_lock, save);
 }
 
+void ppa_put_back(struct ppa_desc* desc)
+{
+    uint32_t save = spin_lock_blocking(g_lock);
+    STAILQ_INSERT_TAIL(&g_done, desc, entry);
+    spin_unlock(g_lock, save);
+}
+
 static struct ppa_desc* do_ppa_poll()
 {
     struct ppa_desc* rval = STAILQ_FIRST(&g_done);

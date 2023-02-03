@@ -30,6 +30,7 @@ struct ppa_desc {
 };
 
 bool             ppa_init(bool required);
-void             ppa_queue(struct ppa_desc* buffer);
+void             ppa_queue(struct ppa_desc* desc);
+void             ppa_put_back(struct ppa_desc* desc);
 struct ppa_desc* ppa_poll();
 struct ppa_desc* ppa_poll_blocking();
