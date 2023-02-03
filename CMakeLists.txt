@@ -5,7 +5,7 @@ include(vendor/pico-sdk/pico_sdk_init.cmake)
 list(APPEND PICO_BOARD_HEADER_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/include/boards)
 
 # Setup project.
-project(pico-audio)
+project(libppa)
 
 # Configure compiler.
 set(CMAKE_C_STANDARD 23)
@@ -16,6 +16,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 pico_sdk_init()
 
 add_subdirectory(vendor/picomp3lib/src)
+add_subdirectory(libppa)
 
 add_custom_command(
     OUTPUT strauss.mp3
@@ -46,19 +47,20 @@ add_custom_command(
         strauss.o
 )
 
-add_executable(demo src/main.c src/ppa.c src/cond.c strauss.o)
-pico_add_extra_outputs(demo)
+add_executable(libppa-demo src/main.c strauss.o)
+pico_add_extra_outputs(libppa-demo)
 
 # Use USB for stdio.
-pico_enable_stdio_uart(demo 0)
-pico_enable_stdio_usb(demo 1)
-target_compile_definitions(demo PRIVATE
+pico_enable_stdio_uart(libppa-demo 0)
+pico_enable_stdio_usb(libppa-demo 1)
+target_compile_definitions(libppa-demo PRIVATE
     PICO_STDIO_USB_CONNECT_WAIT_TIMEOUT_MS=5000
 )
 
-target_link_libraries(demo
+target_link_libraries(libppa-demo
     pico_stdlib
     hardware_pwm
     hardware_dma
+    libppa
     picomp3lib
 )
