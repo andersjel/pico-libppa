@@ -11,7 +11,7 @@ project(libppa)
 set(CMAKE_C_STANDARD 23)
 set(CMAKE_EXPORT_COMPILE_COMMANDS on)
 add_compile_options(-Wall -Wno-int-conversion)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
+include_directories(include)
 
 pico_sdk_init()
 
